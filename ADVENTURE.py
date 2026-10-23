@@ -1,18 +1,15 @@
 import random
-Slot1 = [
-#player always goes in slot 1
-#hp
-"10",
-#attack bonus
-"0"
-]
-Slot2 = [
-#other creatures go in slots 2+
-#hp
-"10",
-#attack bonus
-"3"
-]
+import time
+Slot1 = {
+"hp":"10",
+"attack bonus":"0",
+
+}
+Slot2 = {
+"hp":"10",
+"attack bonus":"3",
+"weaponequipped":"claws"
+}
 creaturesinroom = [
     "player",
     "jerry",
@@ -23,6 +20,7 @@ creaturesandslots = {
     "jerry":Slot2,
 
 }
+PlayerSlot = Slot1
 placeholdervar = ""
 weapon = ""
 berry = ""
@@ -68,16 +66,18 @@ def attack(target):
     if target not in creaturesandslots:
         print("sorry, ",target," is not in the room.")
         return
-    larry = creaturesandslots[target]
-    jerry = larry[0]
+    barry = creaturesandslots[target]
+    jerry = barry["hp"]
     jerry = int(jerry)
     if weapon != "":
         larry = random.randint(1,itemsanddamage[weapon])
         jerry -= larry
         if jerry <= 0:
-            pass
+            print(target,"is dead.")
+            barry["hp"] = jerry
         else:
-            print("jerry is mad you stabbed him for",larry,"damage")
+            barry["hp"] = jerry
+            print(target,"is mad you hurt him for",larry,"damage")
     else:
         global berry
         bag = ""
@@ -104,6 +104,7 @@ def attack(target):
             if (berry == "n" or berry == "N" or berry == "no" or berry == "No") == False:
                 print("jerry is dead..")
             incombat = False
+        barry["hp"] = jerry
     if incombat == True:
         combat()
 
@@ -145,4 +146,11 @@ def hmm():
             eval(hmm)
             secondpart = False
 while True:
-    hmm()
+    if int(PlayerSlot["hp"]):
+        if int(PlayerSlot["hp"]) >= 0:
+            hmm()
+            if int(PlayerSlot["hp"]) >= 0:
+                if incombat == True:
+                    print("you have",PlayerSlot["hp"],"hp left.")
+            else:
+                print("sorry, you died! you need to restart the game to play again.")
