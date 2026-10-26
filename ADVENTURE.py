@@ -51,20 +51,21 @@ def take(x):
     if x in itemsinroom:
         global weapon
         if x in itemsanddamage:
-            print(("you pick up the "+x))
+            print("you pick up the "+x)
+            inven.append(weapon)
             weapon = x
         else:
             inven.append(x)
-            print("that's not a weapon, but OK!")
+            print("You pick up the"+x)
     else:
-        print("that's not in the room")
+        print("I'm sorry, what?")
 def attack(target):
     global placeholdervar
     global weapon
     global inven
     global incombat
     if target not in creaturesandslots:
-        print("sorry, ",target," is not in the room.")
+        print("I'm sorry, what?")
         return
     barry = creaturesandslots[target]
     jerry = barry["hp"]
@@ -78,6 +79,7 @@ def attack(target):
         else:
             barry["hp"] = jerry
             print(target,"is mad you hurt him for",larry,"damage")
+            target["hostile"] = True
     else:
         global berry
         bag = ""
